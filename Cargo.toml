@@ -13,6 +13,7 @@ sha2 = "0.10"
 ripemd = "0.1.3"
 bech32 = "0.9"
 hex = "0.4.3"
+bs58 = "0.4"
 
 [dev-dependencies]
 cw-multi-test = "0.13.4"
