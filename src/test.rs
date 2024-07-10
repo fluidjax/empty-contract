@@ -1,8 +1,22 @@
 
+
+
+
+
 #[cfg(test)]
 mod tests {
     use crate::bitcoin::*;
+    use crate::contract::query::*;
     use super::*;
+
+    #[test]
+    fn test_query_derive() {
+        let pub_key_hex = "021004687a9e5b290b55383eaffa7fd41ce59a27d96d34e7be71e3d85910d0649c";
+        let pub_key_bytes = hex::decode(pub_key_hex).expect("Invalid hex");
+
+        let address = derive_address("021004687a9e5b290b55383eaffa7fd41ce59a27d96d34e7be71e3d85910d0649c","p2pkh",false, "bitcoin");
+        println!("P2PKH Mainnet Address: {}", address.unwrap().address);
+    }
 
     #[test]
     fn test_generate_addresses() {

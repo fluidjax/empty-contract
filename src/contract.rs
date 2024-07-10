@@ -21,11 +21,12 @@ pub fn query(_deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
     use QueryMsg::*;
 
     match msg {
-        DeriveAddress { public_key, address_type, testnet, chain } => to_json_binary(&query::derive_address(public_key, address_type, testnet, chain)?),
+        DeriveAddress { public_key, address_type, testnet, chain } => to_json_binary(&query::derive_address(public_key.as_str(), address_type.as_str(), testnet, chain.as_str())?),
     }
 }
 
-mod query {
+pub mod query {
+    use std::ascii::AsciiExt;
     use crate::bitcoin::*;
     use crate::msg::DeriveAddressResp;
     use super::*;
@@ -60,7 +61,7 @@ mod query {
 
 
 
-    pub fn derive_address(public_key: String, address_type: String, testnet: bool, chain: String) -> StdResult<DeriveAddressResp> {
+    pub fn derive_address(public_key: &str, address_type: &str, testnet: bool, chain: &str) -> StdResult<DeriveAddressResp> {
         //"021004687a9e5b290b55383eaffa7fd41ce59a27d96d34e7be71e3d85910d0649c";
         let pub_key_hex = public_key.to_string();
         let pub_key_bytes = hex::decode(pub_key_hex).expect("Invalid hex");
@@ -68,7 +69,18 @@ mod query {
 
         match chain.to_ascii_lowercase().as_str(){
            "bitcoin" => {
-               address = generate_p2pkh(&pub_key_bytes, testnet)
+
+               match address_type.to_ascii_lowercase().as_str() {
+                   "p2pkh" => {
+                       address = generate_p2pkh(&pub_key_bytes, testnet);
+                   },
+                    _ => {
+                    return Err(StdError::generic_err("Invalid chain"))
+                   }
+               }
+
+
+
            },
            _ => {
                return Err(StdError::generic_err("Invalid chain"))
