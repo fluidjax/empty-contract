@@ -1,0 +1,1 @@
+2cbf8029cc48ed8313ef0926ef59f4a24b93c98bbdaa2296cf224011e70323e9  empty_contract.wasm
