@@ -1,11 +1,18 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
-pub struct GreetResp {
-    pub message: String,
+pub struct DeriveAddressResp {
+    pub address: String,
 }
+
+
 
 #[derive(Serialize, Deserialize)]
 pub enum QueryMsg {
-    Greet {},
+    DeriveAddress {
+        public_key: String,
+        address_type: String,
+        testnet: bool,
+        chain: String
+    },
 }

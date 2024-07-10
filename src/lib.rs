@@ -4,6 +4,8 @@ use cosmwasm_std::{
 
 mod contract;
 mod msg;
+mod bitcoin;
+mod test;
 
 #[entry_point]
 pub fn instantiate(deps: DepsMut, env: Env, info: MessageInfo, msg: Empty)
